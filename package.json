@@ -1,8 +1,12 @@
 {
-  "name": "helloworld",
-  "displayName": "HelloWorld",
-  "description": "Hello World Example Extension",
-  "version": "1.0.0",
+  "name": "hello-github-world",
+  "displayName": "Github Action Demo Extension",
+  "description": "Extension to demonstrate github action publish",
+  "publisher": "chrisbibby",
+  "author": {
+    "name": "Chris Bibby"
+  },
+  "version": "1.0.8",
   "engines": {
     "vscode": "^1.75.0"
   },
@@ -14,7 +18,7 @@
     "Other"
   ],
   "activationEvents": [
-    "onCommand:helloworld.helloWorld"
+    "onCommand:hello-github-world.helloWorld"
   ],
   "main": "./out/extension.js",
   "contributes": {
@@ -32,19 +36,14 @@
     "pretest": "npm run compile && npm run lint",
     "lint": "eslint src --ext ts",
     "test": "node ./out/test/runTest.js",
-    "package": "vsce package"
+    "package": "npx @vscode/vsce package"
   },
   "devDependencies": {
-    "@types/vscode": "^1.75.0",
-    "@types/glob": "^8.0.1",
-    "@types/mocha": "^10.0.1",
     "@types/node": "16.x",
+    "@types/vscode": "^1.75.0",
     "@typescript-eslint/eslint-plugin": "^5.49.0",
     "@typescript-eslint/parser": "^5.49.0",
     "eslint": "^8.33.0",
-    "glob": "^8.1.0",
-    "mocha": "^10.1.0",
-    "typescript": "^4.9.4",
-    "@vscode/test-electron": "^2.2.2"
+    "typescript": "^4.9.4"
   }
 }
