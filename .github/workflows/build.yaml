@@ -11,10 +11,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Use Node.js ${{ matrix.node-version }}
+      - name: Use Node.js 16
         uses: actions/setup-node@v3
         with:
           node-version: "16"
+      - name: Install VSCode VSCE
+        run: npm i -g @vscode/vsce@latest
       - name: Cache node modules
         uses: actions/cache@v3
         with:
@@ -24,8 +26,10 @@ jobs:
             ${{ runner.OS }}-build-${{ env.cache-name }}-
             ${{ runner.OS }}-build-
             ${{ runner.OS }}-
-      - run: npm ci
-      - run: npm run package
+      - name: Install Dependencies
+        run: npm ci
+      - name: Build VSCode Marketplace Extension
+        run: npm run package
       - uses: actions/upload-artifact@v3
         with:
           name: vscode-marketplace-extension
