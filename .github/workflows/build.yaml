@@ -32,7 +32,7 @@ jobs:
         run: npm run package
       - uses: actions/upload-artifact@v3
         with:
-          name: vscode-marketplace-extension-${{ env.GITHUB_RUN_ID }}
+          name: vscode-marketplace-extension-$GITHUB_RUN_ID
           path: ${{ github.workspace }}/helloworld-*.vsix
 
   deploy:
