@@ -43,6 +43,7 @@ jobs:
     steps:
       - run: echo "Fetchiing the Extension Artifact"
       - uses: actions/download-artifact@v3
+        id: download-artifact
         with:
           name: vscode-marketplace-extension-${{ github.run_id }}-${{ github.run_attempt }}
       - name: Install VSCode VSCE
@@ -50,8 +51,8 @@ jobs:
       - name: Install OpenVSX
         run: npm i -g ovsx@latest
       - name: Deploying to VSCode Marketplace
-        run: vsce publish -i ${{steps.download.outputs.download-path}}
+        run: vsce publish -i ${{steps.download-artifact.outputs.download-path}}
       - name: Deploying to OpenVSX Marketplace
-        run: ovsx publish -i ${{steps.vscode-marketplace-extension-${{ github.run_id }}-${{ github.run_attempt }}.outputs.download-path}}
+        run: ovsx publish -i ${{steps.download-artifact.outputs.download-path}}
       - name: Validate Extension Name
         run: ls -l
