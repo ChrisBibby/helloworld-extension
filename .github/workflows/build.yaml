@@ -50,10 +50,10 @@ jobs:
       - name: Install VSCode VSCE
         run: npm i -g @vscode/vsce@latest
       - name: Install OpenVSX
-        run: npm i -g ovsx@latest      
+        run: npm i -g ovsx@latest
       - name: Validate Extension Name
         run: ls -l
       - name: Deploying to VSCode Marketplace
-        run: vsce publish -i extension.vsix
+        run: vsce publish -i ${{ github.workspace }}/extension.vsix
       - name: Deploying to OpenVSX Marketplace
-        run: ovsx publish -i extension.vsix
+        run: ovsx publish -i ${{ github.workspace }}/extension.vsix
