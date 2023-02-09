@@ -50,8 +50,8 @@ jobs:
       - name: Install OpenVSX
         run: npm i -g ovsx@latest
       - name: Deploying to VSCode Marketplace
-        run: echo "DEPLOYING TO VSCODE MARKETPLACE"
-      - name: Deploying to OpenVSX Marketplace
         run: vsce publish
-      - name: Validate Extension Name
+      - name: Deploying to OpenVSX Marketplace
         run: ovsx publish
+      - name: Validate Extension Name
+        run: ls -l
