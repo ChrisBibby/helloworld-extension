@@ -7,7 +7,7 @@ on:
 
 jobs:
   build:
-    name: Build & Test
+    name: Build & Test (VSCode Marketplace)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -41,9 +41,15 @@ jobs:
     environment: "deploy"
     runs-on: ubuntu-latest
     steps:
-      - run: echo "🎉 Deploying the code."
+      - run: echo "Fetchiing the Extension Artifact"
       - uses: actions/download-artifact@v3
         with:
           name: vscode-marketplace-extension-${{ github.run_id }}-${{ github.run_attempt }}
-      - name: Display structure of downloaded files
-        run: ls -R
+      - name: Install VSCode VSCE
+        run: npm i -g @vscode/vsce@latest
+      - name: Install OpenVSX
+        run: npm i -g ovsx@latest
+      - name: Deploying to VSCode Marketplace
+        run: echo "DEPLOYING TO VSCODE MARKETPLACE"
+      - name: Deploying to OpenVSX Marketplace
+        run: echo "DEPLOYING TO OPENVSX MARKETPLACE"
