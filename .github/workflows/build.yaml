@@ -44,6 +44,6 @@ jobs:
       - run: echo "🎉 Deploying the code."
       - uses: actions/download-artifact@v3
         with:
-          name: vscode-marketplace-extension
+          name: vscode-marketplace-extension-${{ github.run_id }}-${{ github.run_attempt }}
       - name: Display structure of downloaded files
         run: ls -R
