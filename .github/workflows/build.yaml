@@ -7,7 +7,7 @@ on:
 
 jobs:
   build:
-    name: Build & Test (VSCode Marketplace)
+    name: Build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -37,7 +37,7 @@ jobs:
 
   deploy:
     needs: [build]
-    name: Deploy to VSCode Marketplace
+    name: Deploy
     environment: "deploy"
     runs-on: ubuntu-latest
     steps:
@@ -53,3 +53,5 @@ jobs:
         run: echo "DEPLOYING TO VSCODE MARKETPLACE"
       - name: Deploying to OpenVSX Marketplace
         run: echo "DEPLOYING TO OPENVSX MARKETPLACE"
+      - name: Validate Extension Name
+        run: ls -l
