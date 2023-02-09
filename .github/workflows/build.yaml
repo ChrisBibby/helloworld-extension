@@ -46,13 +46,14 @@ jobs:
         id: download-artifact
         with:
           name: vscode-marketplace-extension-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ github.workspace }}/extension.vsix
       - name: Install VSCode VSCE
         run: npm i -g @vscode/vsce@latest
       - name: Install OpenVSX
         run: npm i -g ovsx@latest
       - name: Deploying to VSCode Marketplace
-        run: vsce publish -i *.vsix
+        run: vsce publish -i extension.vsix
       - name: Deploying to OpenVSX Marketplace
-        run: ovsx publish -i *.vsix
+        run: ovsx publish -i extension.vsix
       - name: Validate Extension Name
         run: ls -l
