@@ -51,8 +51,8 @@ jobs:
       - name: Install OpenVSX
         run: npm i -g ovsx@latest
       - name: Deploying to VSCode Marketplace
-        run: vsce publish -i ${{steps.download-artifact.outputs.download-path}}
+        run: vsce publish -i *.vsix
       - name: Deploying to OpenVSX Marketplace
-        run: ovsx publish -i ${{steps.download-artifact.outputs.download-path}}
+        run: ovsx publish -i *.vsix
       - name: Validate Extension Name
         run: ls -l
