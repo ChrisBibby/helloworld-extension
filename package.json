@@ -2,6 +2,10 @@
   "name": "helloworld",
   "displayName": "HelloWorld",
   "description": "Hello World Example Extension",
+  "publisher": "chrisbibby",
+  "author": {
+    "name": "Chris Bibby"
+  },
   "version": "1.0.0",
   "engines": {
     "vscode": "^1.75.0"
