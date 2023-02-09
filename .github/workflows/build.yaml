@@ -52,6 +52,6 @@ jobs:
       - name: Deploying to VSCode Marketplace
         run: vsce publish -i ${{steps.download.outputs.download-path}}
       - name: Deploying to OpenVSX Marketplace
-        run: ovsx publish -i ${{steps.download.outputs.download-path}}
+        run: ovsx publish -i ${{steps.vscode-marketplace-extension-${{ github.run_id }}-${{ github.run_attempt }}.outputs.download-path}}
       - name: Validate Extension Name
         run: ls -l
