@@ -31,7 +31,7 @@ jobs:
           publisher=$( jq -r .publisher ./package.json )
           echo "EXTENSION_NAME=$ename" >> $GITHUB_ENV
           echo "PACKAGE_VERSION=$pversion" >> $GITHUB_ENV
-          echo "PUBLISHED=$publisher" >> $GITHUB_ENV
+          echo "PUBLISHER=$publisher" >> $GITHUB_ENV
       - name: Install VSCode VSCE
         run: npm i -g @vscode/vsce@latest
       - name: Install Dependencies
@@ -47,9 +47,9 @@ jobs:
       package_version: ${{ env.PACKAGE_VERSION }}
       publisher: ${{ env.PUBLISHER }}
 
-  deploy:
+  vscode:
     needs: [build]
-    name: Deploy
+    name: Deploy to VSCode Marketplace
     environment: "deploy"
     runs-on: ubuntu-latest
     steps:
@@ -59,11 +59,22 @@ jobs:
           name: vscode-marketplace-extension-${{ github.run_id }}-${{ github.run_attempt }}
       - name: Install VSCode VSCE
         run: npm i -g @vscode/vsce@latest
-      - name: Install OpenVSX
-        run: npm i -g ovsx@latest
       - name: Deploying to VSCode Marketplace
         run: |
           vsce publish -i ${{ github.workspace }}/${{ needs.build.outputs.extension_name }}-${{ needs.build.outputs.package_version }}.vsix -p ${{ secrets.VSCE_PAT }}
           echo "https://marketplace.visualstudio.com/items?itemName=${{ needs.build.outputs.publisher }}.${{ needs.build.outputs.extension_name }}" >> $GITHUB_STEP_SUMMARY
+
+  openvsx:
+    needs: [build]
+    name: Deploy to OpenVSX Marketplace
+    environment: "deploy"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v3
+        id: download-artifact
+        with:
+          name: vscode-marketplace-extension-${{ github.run_id }}-${{ github.run_attempt }}
+      - name: Install OpenVSX
+        run: npm i -g ovsx@latest
       - name: Deploying to OpenVSX Marketplace
         run: ovsx publish -i ${{ github.workspace }}/${{ needs.build.outputs.extension_name }}-${{ needs.build.outputs.package_version }}.vsix -p ${{ secrets.OVSX_PAT }}
