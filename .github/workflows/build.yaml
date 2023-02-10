@@ -25,7 +25,6 @@ jobs:
             ${{ runner.OS }}-build-
             ${{ runner.OS }}-
       - name: Read Extension Version
-        id: read_version
         run: |
           content=`cat ./package.json`
           # the following lines are only required for multi line json
@@ -34,9 +33,9 @@ jobs:
           content="${content//$'\r'/'%0D'}"
           # end of optional handling for multi line json
           echo "::set-output name=packageJson::$content"
+        id: read_version
       - name: Extract Version from Package.json
         run: echo "${{fromJson(steps.read_version.outputs.packageJson).version}}"
-
       - name: Install VSCode VSCE
         run: npm i -g @vscode/vsce@latest
       - name: Install Dependencies
