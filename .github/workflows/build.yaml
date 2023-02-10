@@ -24,9 +24,11 @@ jobs:
             ${{ runner.OS }}-build-${{ env.cache-name }}-
             ${{ runner.OS }}-build-
             ${{ runner.OS }}-
-      - name: Read Extension Version
+      - name: Read Extension Name & Version
         run: |
-          pversion=$(jq -r .version package.json)
+          ename=$( jq -r .name package.json )
+          pversion=$( jq -r .version package.json )
+          echo "EXTENSION_NAME=$ename" >> $GITHUB_ENV
           echo "PACKAGE_VERSION=$pversion" >> $GITHUB_ENV
       - name: Install VSCode VSCE
         run: npm i -g @vscode/vsce@latest
@@ -37,8 +39,9 @@ jobs:
       - uses: actions/upload-artifact@v3
         with:
           name: vscode-marketplace-extension-${{ github.run_id }}-${{ github.run_attempt }}
-          path: ${{ github.workspace }}/helloworld-${{ env.PACKAGE_VERSION }}.vsix
+          path: ${{ github.workspace }}/${{ env.EXTENSION_NAME }}-${{ env.PACKAGE_VERSION }}.vsix
     outputs:
+      extension_name: ${{ env.EXTENSION_NAME }}
       package_version: ${{ env.PACKAGE_VERSION }}
 
   deploy:
@@ -56,6 +59,6 @@ jobs:
       - name: Install OpenVSX
         run: npm i -g ovsx@latest
       - name: Deploying to VSCode Marketplace
-        run: vsce publish -i ${{ github.workspace }}/helloworld-${{needs.build.outputs.package_version}}.vsix -p ${{ secrets.VSCE_PAT }}
+        run: vsce publish -i ${{ github.workspace }}/${{ needs.build.outputs.extension_name }}-${{ needs.build.outputs.package_version }}.vsix -p ${{ secrets.VSCE_PAT }}
       - name: Deploying to OpenVSX Marketplace
-        run: ovsx publish -i ${{ github.workspace }}/helloworld-${{needs.build.outputs.package_version}}.vsix -p ${{ secrets.OVSX_PAT }}
+        run: ovsx publish -i ${{ github.workspace }}/${{ needs.build.outputs.extension_name }}-${{ needs.build.outputs.package_version }}.vsix -p ${{ secrets.OVSX_PAT }}
