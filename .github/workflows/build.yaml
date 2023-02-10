@@ -26,7 +26,7 @@ jobs:
             ${{ runner.OS }}-
       - name: Read Extension Version
         run: |
-          pversion=$(jq -r .version pacakge.json)
+          pversion=$(jq -r .version package.json)
           echo "PACKAGE_VERISION=pversion" >> $GITHUB_ENV
       - name: Install VSCode VSCE
         run: npm i -g @vscode/vsce@latest
