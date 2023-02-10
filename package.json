@@ -18,7 +18,7 @@
     "Other"
   ],
   "activationEvents": [
-    "onCommand:helloworld.helloWorld"
+    "onCommand:hello-github-world.helloWorld"
   ],
   "main": "./out/extension.js",
   "contributes": {
