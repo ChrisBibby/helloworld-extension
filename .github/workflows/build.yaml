@@ -52,7 +52,6 @@ jobs:
         id: download-artifact
         with:
           name: vscode-marketplace-extension-${{ github.run_id }}-${{ github.run_attempt }}
-          path: extension.vsix
       - name: Install VSCode VSCE
         run: npm i -g @vscode/vsce@latest
       - name: Install OpenVSX
