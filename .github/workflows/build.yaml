@@ -27,15 +27,15 @@ jobs:
       - name: Read Extension Version
         run: |
           content=`cat ./package.json`
-          # the following lines are only required for multi line json
-          content="${content//'%'/'%25'}"
-          content="${content//$'\n'/'%0A'}"
-          content="${content//$'\r'/'%0D'}"
-          # end of optional handling for multi line json
-          echo "packageJson=$content" >> $GITHUB_STATE
+          # # the following lines are only required for multi line json
+          # content="${content//'%'/'%25'}"
+          # content="${content//$'\n'/'%0A'}"
+          # content="${content//$'\r'/'%0D'}"
+          # # end of optional handling for multi line json
+          echo "PACKAGE_JSON=$content<<EOF" >> $GITHUB_STATE
         id: read_version
       - name: Extract Version from Package.json
-        run: echo "${{fromJson(steps.read_version.outputs.packageJson).version}}"
+        run: echo "${{ fromJson(steps.read_version.outputs.PACKAGE_JSON).version }}"
       - name: Install VSCode VSCE
         run: npm i -g @vscode/vsce@latest
       - name: Install Dependencies
