@@ -45,6 +45,7 @@ jobs:
     outputs:
       extension_name: ${{ env.EXTENSION_NAME }}
       package_version: ${{ env.PACKAGE_VERSION }}
+      publisher: ${{ env.PUBLISHER }}
 
   deploy:
     needs: [build]
