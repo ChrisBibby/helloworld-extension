@@ -1,7 +1,7 @@
 {
-  "name": "helloworld",
-  "displayName": "HelloWorld",
-  "description": "Demo extension",
+  "name": "hello-github-world",
+  "displayName": "Github Action Demo Extension",
+  "description": "Extension to demonstrate github action publish",
   "publisher": "chrisbibby",
   "author": {
     "name": "Chris Bibby"
