@@ -24,12 +24,14 @@ jobs:
             ${{ runner.OS }}-build-${{ env.cache-name }}-
             ${{ runner.OS }}-build-
             ${{ runner.OS }}-
-      - name: Read Extension Name & Version
+      - name: Read Extension Name, Publisher & Version
         run: |
-          ename=$( jq -r .name package.json )
-          pversion=$( jq -r .version package.json )
+          ename=$( jq -r .name ./package.json )
+          pversion=$( jq -r .version ./package.json )
+          publisher=$( jq -r .publisher ./package.json )
           echo "EXTENSION_NAME=$ename" >> $GITHUB_ENV
           echo "PACKAGE_VERSION=$pversion" >> $GITHUB_ENV
+          echo "PUBLISHED=$publisher" >> $GITHUB_ENV
       - name: Install VSCode VSCE
         run: npm i -g @vscode/vsce@latest
       - name: Install Dependencies
@@ -59,6 +61,8 @@ jobs:
       - name: Install OpenVSX
         run: npm i -g ovsx@latest
       - name: Deploying to VSCode Marketplace
-        run: vsce publish -i ${{ github.workspace }}/${{ needs.build.outputs.extension_name }}-${{ needs.build.outputs.package_version }}.vsix -p ${{ secrets.VSCE_PAT }}
+        run: |
+          vsce publish -i ${{ github.workspace }}/${{ needs.build.outputs.extension_name }}-${{ needs.build.outputs.package_version }}.vsix -p ${{ secrets.VSCE_PAT }}
+          echo "https://marketplace.visualstudio.com/items?itemName=${{ needs.build.outputs.publisher }}.${{ needs.build.outputs.extension_name }}" >> $GITHUB_STEP_SUMMARY
       - name: Deploying to OpenVSX Marketplace
         run: ovsx publish -i ${{ github.workspace }}/${{ needs.build.outputs.extension_name }}-${{ needs.build.outputs.package_version }}.vsix -p ${{ secrets.OVSX_PAT }}
