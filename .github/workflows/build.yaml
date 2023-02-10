@@ -38,6 +38,8 @@ jobs:
         with:
           name: vscode-marketplace-extension-${{ github.run_id }}-${{ github.run_attempt }}
           path: ${{ github.workspace }}/helloworld-${{ env.PACKAGE_VERSION }}.vsix
+    outputs:
+      package_version: ${{ env.PACKAGE_VERSION }}
 
   deploy:
     needs: [build]
@@ -58,6 +60,6 @@ jobs:
       - name: Validate Extension Name
         run: ls -l
       - name: Deploying to VSCode Marketplace
-        run: vsce publish -i ${{ github.workspace }}/helloworld-${{ env.PACKAGE_VERSION }}.vsix -p ${{ secrets.VSCE_PAT }}
+        run: vsce publish -i ${{ github.workspace }}/helloworld-${{needs.build.outputs.package_version}}.vsix -p ${{ secrets.VSCE_PAT }}
       - name: Deploying to OpenVSX Marketplace
-        run: ovsx publish -i ${{ github.workspace }}/helloworld-${{ env.PACKAGE_VERSION }}.vsix -p ${{ secrets.OVSX_PAT }}
+        run: ovsx publish -i ${{ github.workspace }}/helloworld-${{needs.build.outputs.package_version}}.vsix -p ${{ secrets.OVSX_PAT }}
