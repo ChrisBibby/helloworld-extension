@@ -74,4 +74,6 @@ jobs:
       - name: Install OpenVSX
         run: npm i -g ovsx@latest
       - name: Deploying to OpenVSX Marketplace
-        run: ovsx publish -i ${{ github.workspace }}/${{ needs.build.outputs.extension_name }}-${{ needs.build.outputs.package_version }}.vsix -p ${{ secrets.OVSX_PAT }}
+        run: |
+          ovsx publish -i ${{ github.workspace }}/${{ needs.build.outputs.extension_name }}-${{ needs.build.outputs.package_version }}.vsix -p ${{ secrets.OVSX_PAT }}
+          echo "https://open-vsx.org/extension/${{ needs.build.outputs.publisher }}/${{ needs.build.outputs.extension_name }}" >> $GITHUB_STEP_SUMMARY
