@@ -91,7 +91,5 @@ jobs:
             await github.repos.createRelease({
               owner: owner,
               repo: repo,
-              tag_name: 'test v1',
-              name: 'something name',
-              body: 'something body'
+              tag_name: 'v1'
             })
