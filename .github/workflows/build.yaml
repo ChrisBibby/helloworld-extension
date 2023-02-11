@@ -77,3 +77,21 @@ jobs:
         run: |
           ovsx publish -i ${{ github.workspace }}/${{ needs.build.outputs.extension_name }}-${{ needs.build.outputs.package_version }}.vsix -p ${{ secrets.OVSX_PAT }}
           echo "https://open-vsx.org/extension/${{ needs.build.outputs.publisher }}/${{ needs.build.outputs.extension_name }}" >> $GITHUB_STEP_SUMMARY
+
+  create-release:
+    needs: [openvsx]
+    name: Create Release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v6
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            const { owner, repo } = context.repo
+            await github.repos.createRelease({
+              owner: owner,
+              repo: repo,
+              tag_name: 'test v1',
+              name: 'something name',
+              body: 'something body'
+            })
