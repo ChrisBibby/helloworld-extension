@@ -83,13 +83,9 @@ jobs:
     name: Create Release
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/github-script@v6
+      - uses: actions/github-script@v4
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
             const { owner, repo } = context.repo
-            await github.repos.createRelease({
-              owner: owner,
-              repo: repo,
-              tag_name: 'v1'
-            })
+            await github.repos.createRelease({ owner, repo, tag_name: 'v1'})
