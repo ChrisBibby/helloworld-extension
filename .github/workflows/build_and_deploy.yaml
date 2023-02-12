@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - "main"
+    tags:
+      - "v*.*.*"
 
 jobs:
   build:
@@ -77,3 +79,16 @@ jobs:
         run: |
           ovsx publish -i ${{ github.workspace }}/${{ needs.build.outputs.extension_name }}-${{ needs.build.outputs.package_version }}.vsix -p ${{ secrets.OVSX_PAT }}
           echo "https://open-vsx.org/extension/${{ needs.build.outputs.publisher }}/${{ needs.build.outputs.extension_name }}" >> $GITHUB_STEP_SUMMARY
+
+  release:
+    needs: [vscode, openvsx]
+    name: Create Release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: softprops/action-gh-release@de2c0eb89ae2a093876385947365aca7b0e5f844
+        with:
+          files: ${{ github.workspace }}/${{ needs.build.outputs.extension_name }}-${{ needs.build.outputs.package_version }}.vsix
+          body_path: ${{ github.workspace }}/CHANGELOG.md
+          prerelease: true
+          run: |
+            echo ${{ steps.release.outputs.url }} >> $GITHUB_STEP_SUMMARY
