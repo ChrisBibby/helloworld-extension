@@ -81,7 +81,7 @@ jobs:
           echo "https://open-vsx.org/extension/${{ needs.build.outputs.publisher }}/${{ needs.build.outputs.extension_name }}" >> $GITHUB_STEP_SUMMARY
 
   release:
-    needs: [vscode, openvsx]
+    needs: [openvsx]
     name: Create Release
     runs-on: ubuntu-latest
     steps:
